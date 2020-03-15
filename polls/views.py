@@ -67,15 +67,15 @@ def professor_home(request):
     print("This is the professor's home page")
     if request.method == "GET":
         return render(request, "polls/professor_home.html", {})
-    
+
     csv_file = request.FILES['file']
 
     if not csv_file.name.endswith('.csv'):
         messages.error(request,'NOT CSV FILE')
-    
+
     data_set = csv_file.read().decode('UTF-8')
     io_string = io.StringIO(data_set)
-    
+
 
     room = createroom(False, False)
 
