@@ -576,6 +576,17 @@
 
     });
 
+    $("#next_poll").click(function(){
+
+        $("input").val('')
+        $(".selected").removeClass("selected")
+
+
+        socket.send(JSON.stringify(message));
+
+
+    })
+
 
     $("#closepoll").click(function(){
 
@@ -682,6 +693,8 @@
         if (typeof pollchart != 'undefined'){ //if a poll exists we destroy the chart
             pollchart.destroy()
         }
+
+        options = for all options in poll_list[i]
 
         $("#pollstats").empty()
         $(".chart-title").text(title)

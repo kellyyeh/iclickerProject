@@ -19,6 +19,10 @@ logger = logging.getLogger(__name__)
 def admin(request,roomid):
 
     room = Room.objects.get(roomid=roomid)
+    total_polls = room.total_polls
+    print("total polls:", total_polls)
+    poll_num = room.poll_num
+    print("poll num:", poll_num)
 
     if request.user.is_authenticated:
         pass
@@ -30,7 +34,10 @@ def admin(request,roomid):
 
     try:
         print("Inside views.py / admin: try to filter for poll")
-        poll = Poll.objects.filter(room__roomid=roomid, active=True).order_by('-pub_date')[0] #get latest active poll
+        poll = Poll.objects.filter(room__roomid=roomid, active=True).order_by('pub_date')[poll_num] #get latest active poll
+        if poll_num < room.total_polls:
+            room.poll_num = room.poll_num + 1
+
 
         if poll.type == 'mc':
             options = Option.objects.filter(poll_id=poll.id)
@@ -53,6 +60,8 @@ def admin(request,roomid):
 
     context = {'poll': poll,
                'room': room,
+               'total_polls': total_polls,
+               'poll_num': poll_num,
                'options': options,
                'newpoll': newpoll,
                'roomid': mark_safe(json.dumps(room.roomid)),
@@ -67,7 +76,7 @@ def admin(request,roomid):
 def professor_home(request):
     print("key = ", request.session.get('key',''))
     key = request.session.get('key','')
-    
+
     print("This is the professor's home page")
     if request.method == "GET":
         return render(request, "polls/professor_home.html", {})
@@ -82,10 +91,22 @@ def professor_home(request):
 
 
     room = createroom(False, False)
+    roomid = room.roomid
+
+
+    print("room id:",roomid)
+
 
     for column in csv.reader(io_string, delimiter=','):
         poll = Poll(title = column[0], type = 'mc', active = True, room = room)
         poll.save()
+
+        # obj = Room.objects.create(val=1)
+        # Room.objects.filter(roomid=roomid).update(poll_num=F('poll_num') + 1)
+        # obj.refresh_from_db()
+        room.total_polls = room.total_polls+ 1
+        room.save()
+
         choice_list = []
         choice_list.append(column[1])
         choice_list.append(column[2])
@@ -94,6 +115,14 @@ def professor_home(request):
         for choice in choice_list:
             o = Option(option=choice, poll=poll)
             o.save()
+    request.session['key'] = room.key
+    request.session['room'] = room.roomid
+    request.session['name'] = 'admin'
+
+    if io_string:
+        #return redirect('professor/'+room.roomid)
+        return redirect(room.roomid+'/admin')
+
     return render(request, 'polls/professor_home.html')
 
 def student_home(request):
@@ -318,8 +347,7 @@ def createroom(anon, private):
         roomid = ''.join(random.choice(string.ascii_lowercase + string.digits) for i in range(6))  # regenerate roomid
 
     key = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(16))
-
-    room = Room(roomid=roomid, key=key, anonymous=anon, private=private)
+    room = Room(roomid=roomid, poll_num=0, total_polls=0, key=key, anonymous=anon, private=private)
     room.save()
 
     return room
