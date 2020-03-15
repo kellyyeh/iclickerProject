@@ -64,6 +64,9 @@ def admin(request,roomid):
 
 
 def professor_home(request):
+    print("key = ", request.session.get('key',''))
+    key = request.session.get('key','')
+    
     print("This is the professor's home page")
     if request.method == "GET":
         return render(request, "polls/professor_home.html", {})
@@ -178,8 +181,6 @@ def professor_home(request):
     #            'choiceset': choices,
     #            'numbered': numbered,
     #            }
-
-
 
 def student_home(request):
     print("This is the STUDENT HOME/login page")
