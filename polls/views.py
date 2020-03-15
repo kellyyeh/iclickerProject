@@ -15,47 +15,6 @@ import random, logging, string, channels, json, pdb, datetime, csv
 
 logger = logging.getLogger(__name__)
 
-""" def loginProf(request):
-    if request.user.is_authenticated():
-        pass
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            account = authenticate(username=username, password=password)
-            if account is not None:
-                login(request, account)
-                return HttpResponseRedirect('/professor_home')
-            else:
-                return render(request, 'registration/login.html')
-        else:
-            return render(request, 'registration/login.html')
-    else:
-        form = LoginForm()
-        return render(request, 'registration/login.html')
-
-def loginStudent(request):
-    ''' if request.user.is_authenticated():
-        return HttpResponseRedirect('/') '''
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            account = authenticate(username=username, password=password)
-            if account is not None:
-                login(request, account)
-                return HttpResponseRedirect('/student_home')
-            else:
-                return render(request, 'registration/loginStudent.html')
-        else:
-            return render(request, 'registration/loginStudent.html')
-    else:
-        form = LoginForm()
-        return render(request, 'registration/loginStudent.html') 
-"""
-
 # This is the page where admin has created a poll already
 def admin(request,roomid):
 
