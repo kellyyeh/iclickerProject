@@ -20,6 +20,7 @@ from django.conf.urls import include, url  # For django versions before 2.0
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('', include('polls.urls'))
 
 

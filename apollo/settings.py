@@ -29,7 +29,6 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'channels',
     'polls',
@@ -138,3 +137,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+LOGIN_REDIRECT_URL = '/professor_home'
+LOGOUT_REDIRECT_URL = 'home'

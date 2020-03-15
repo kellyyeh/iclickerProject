@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <div style="text-align:center"><h2>Home</h2></div>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -26,104 +27,16 @@
 
   <a id="goprofessor" class="btn btn-primary"  href="/professor_home">Let's go to the PROFESSOR page! </a>
   <a id="gostudent" class="btn btn-primary" href="/student_home">Let's go to the STUDENT page! </a>
+      </form></div>
     <div class="d-flex justify-content-center align-items-center flex-wrap" id="top" style="width: 100vw; height: 100vh; flex-direction: column; overflow-y: scroll;">
         <img class="logo" src="{% static 'polls/images/iclicker.jpg' %}" width="300px">
-        <form method='post' style="width:100%" novalidate>
-            {% csrf_token %}
-            <div class="d-flex justify-content-center mt-5" style="margin-bottom: 70px;">
-                {{newpoll.title}}
-                <button id="gobutton" type="button" style=" "> Go </button>
-            </div>
-
-            <div class="d-flex justify-content-center mx-3 hidden" id="step2">
-
-                <div id="form_set" style="background-color: #f2f2f2; width: 100%; max-width: 500px; position: relative; border-radius: 0.5rem; padding: 10px;">
-                    <div class="mt-2 mx-3" style="position: relative; text-align: left;">
-                    <div class="row">
-                     <div class="col-sm-2 col-4">
-                         Private:
-                     </div>
-                        <div class="col-sm-2 col-6">
-                        <label class="switch ml-3 mr-5">
-                            {{newpoll.private}}
-                          <span class="slider round"></span>
-                        </label>
-                        </div>
-                        <div class="col-sm-1"></div>
-
-                      <div class="col-sm-3 col-4">
-                        Anonymous:
-                      </div>
-                       <div class="col-sm-2 col-6">
-                        <label class="switch ml-3 mx-3">
-                            {{newpoll.anonymous}}
-                          <span class="slider round"></span>
-                        </label>
-                       </div>
-                    </div>
-                    </div>
-
-                    <div id="numbered_form">
-                        <div class="my-3 mx-3" style="display: inline-block"><p>Range:</p></div>
-                            {{numbered.start}}
-                            {{numbered.end}}
-
-
-                    </div>
-                    <div id="mc_form">
-                        <div class="my-3 mx-3" ><p>Enter choices for users to vote on:</p></div>
-
-                        {{ choiceset.management_form }}
-
-                        <div class="option empty_form" id="empty_form" style="display: none;">
-                            {{choiceset.empty_form.choice}}
-                        </div>
-                        <div class="option mt-1" id="add_form" style="display: inline-block; width: 95%">
-                            {{choiceset.0}}
-                        </div>
-
-                        <div id="add_container">
-                            <i id="add_more" class="fas fa-plus-circle"></i>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn text-white my-3" style="background-color: var(--myblue);border-radius: 1rem; width: 150px; position: absolute; left: 50%; top: 100%; margin-left: 10px;">Start Poll</button>
-                    <button type="button" class="btn my-3" id="back" style="color: var(--myblue); border-style: solid; background-color: white; border-color: var(--myblue); border-radius: 1rem; width: 150px; position: absolute; top: 100%; left: 50%; margin-left: -160px;">Back</button>
-
-
-                    <h5 style="position: absolute; top: -35px; left: 15px;">Options: </h5>
-
-                </div>
-
-
-            </div>
-
-            <div class="d-flex justify-content-center hidden" id="step1">
-                <div class="btn-group btn-group-toggle mt-4" data-toggle="buttons" style="position: relative;">
-                  <label class="btn choice-label">
-                    <img  class="mb-3 zoom choice" src="{% static 'polls/images/MultipleChoice.svg' %}" style="border-radius: 17px;">
-                      <div>
-                          {{newpoll.type.0}}
-                      </div>
-                  </label>
-                  <label class="btn choice-label">
-                    <img  class="mb-3 zoom choice" src="{% static 'polls/images/YesNo.svg' %}" style="border-radius: 17px;">
-                      <div>
-                          {{newpoll.type.1}}
-                      </div>
-                  </label>
-                  <label class="btn choice-label">
-                    <img  class="mb-3 zoom choice" src="{% static 'polls/images/Numbered.svg' %}" style="border-radius: 17px;">
-                      <div>
-                          {{newpoll.type.2}}
-                      </div>
-                  </label>
-                  <h5 style="position: absolute; top: -35px; left: 15px;">Select Poll Type: </h5>
-
-
-                </div>
-            </div>
-
-        </form>
+        {% if user.is_authenticated %} 
+        <div style="text-align:center">Hi {{ user.username }}! Welcome!</div>
+        <p><a href="{% url 'logout' %}">logout</a></p>
+      {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url 'login' %}">login</a>
+        {% endif %}
     </div>
 <script>
 $(document).ready(function(){

@@ -1,15 +1,57 @@
 from django.shortcuts import render, redirect
 from polls.forms import homeInput, Choices, Numbered, MCForm,YesNoForm, NumberedForm, AdminForm
-from django.http import Http404, HttpResponseNotFound, HttpResponse
+from django.http import Http404, HttpResponseNotFound, HttpResponse, HttpResponseRedirect
 from django.forms import formset_factory
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from polls.models import Room, Poll, Option, NumberedVote, YesNoVote, MCVote, NumberedOption, Participant
 from django.utils.safestring import mark_safe
+from django.contrib.auth import authenticate, login
 
 import random, logging, string, channels, json, pdb, datetime, csv
 
 logger = logging.getLogger(__name__)
+
+""" def loginProf(request):
+    if request.user.is_authenticated():
+        pass
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            account = authenticate(username=username, password=password)
+            if account is not None:
+                login(request, account)
+                return HttpResponseRedirect('/professor_home')
+            else:
+                return render(request, 'registration/login.html')
+        else:
+            return render(request, 'registration/login.html')
+    else:
+        form = LoginForm()
+        return render(request, 'registration/login.html')
+
+def loginStudent(request):
+    ''' if request.user.is_authenticated():
+        return HttpResponseRedirect('/') '''
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            account = authenticate(username=username, password=password)
+            if account is not None:
+                login(request, account)
+                return HttpResponseRedirect('/student_home')
+            else:
+                return render(request, 'registration/loginStudent.html')
+        else:
+            return render(request, 'registration/loginStudent.html')
+    else:
+        form = LoginForm()
+        return render(request, 'registration/loginStudent.html') 
+"""
 
 # This is the page where admin has created a poll already
 def admin(request,roomid):
@@ -63,93 +105,6 @@ def admin(request,roomid):
 def professor_home(request):
     print("This is the professor's home page")
     return render(request, 'polls/professor_home.html')
-    # print("key = ", request.session.get('key',''))
-    # key = request.session.get('key','')
-    #
-    # ChoiceSet = formset_factory(Choices, extra=1)
-    #
-    # newpoll = homeInput(request.POST or None)
-    # choices = ChoiceSet(request.POST or None)
-    # numbered = Numbered(request.POST or None)
-    #
-    # if newpoll.is_valid():
-    #
-    #     title = newpoll.cleaned_data['title'].capitalize()
-    #     type = newpoll.cleaned_data['type']
-    #     anon = newpoll.cleaned_data['anonymous']
-    #     private = newpoll.cleaned_data['private']
-    #
-    #
-    #     if type == 'mc' and choices.is_valid():
-    #
-    #         choice_list = []
-    #
-    #         for choice in choices:
-    #             choice_list.append(choice.cleaned_data.get('choice'))
-    #
-    #         choice_list = list(filter(None,choice_list)) #remove empty strings, does not remove strings with spaces
-    #                                                             # set() removes duplicates
-    #
-    #         if choice_list:
-    #             room = createroom(anon, private)
-    #
-    #             poll = Poll(title=title, type=type, active=True, room=room)
-    #             poll.save()
-    #
-    #             for choice in choice_list:
-    #                 o = Option(option=choice, poll=poll)
-    #                 o.save()
-    #         else:
-    #             logger.error('No choices were entered for this poll')
-    #             return redirect('')
-    #
-    #     elif type == 'n' and numbered.is_valid():
-    #
-    #         start = numbered.cleaned_data['start']
-    #         end = numbered.cleaned_data['end']
-    #
-    #         try:
-    #             float(start)
-    #             float(end)
-    #
-    #         except ValueError:
-    #
-    #             logger.error('Start/End field is not a number')
-    #             return redirect('')
-    #
-    #         if start and end:
-    #             room = createroom(anon, private)
-    #             poll = Poll(title=title, type=type, active=True, room=room)
-    #             poll.save()
-    #
-    #             options = NumberedOption(poll=poll, start=start, end=end)
-    #             options.save()
-    #
-    #         else:
-    #             return redirect('')
-    #
-    #     elif type == 'yn':
-    #         room = createroom(anon, private)
-    #         poll = Poll(title=title, type=type, active=True, room=room)
-    #         poll.save()
-    #
-    #     else:
-    #         logger.error('invalid poll type')
-    #         return redirect('')
-    #
-    #     if request.user.is_authenticated:
-    #         pass # save to db
-    #     else:
-    #         request.session['key'] = room.key
-    #         request.session['room'] = room.roomid
-    #         request.session['name'] = 'admin'
-    #
-    #     return redirect(room.roomid+'/admin')
-    #
-    # context = {'newpoll': newpoll,
-    #            'choiceset': choices,
-    #            'numbered': numbered,
-    #            }
 
 
 
@@ -178,6 +133,7 @@ def home(request):
     key = request.session.get('key','')
 
     # Student or professor login..
+    
     ChoiceSet = formset_factory(Choices, extra=1)
 
     newpoll = homeInput(None)

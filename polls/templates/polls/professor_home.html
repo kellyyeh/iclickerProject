@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Professor Home</title>
+    <p><a href="{% url 'logout' %}">logout</a></p>
 
     {% load static %}
 
@@ -31,18 +32,6 @@
            <small>Only accepts CSV files</small>
            <button type="submit">Upload</button>
        </form>
-
-
-
-
-
-
-
-
-
-
-
-
 
     <div class="d-flex justify-content-center align-items-center flex-wrap" id="top" style="width: 100vw; height: 100vh; flex-direction: column; overflow-y: scroll;">
         <img class="logo" src="{% static 'polls/images/iclicker.jpg' %}" width="300px">

@@ -1,6 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.conf import settings
 from django.contrib.sessions.models import Session
+from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
+""" class User(AbstractUser):
+    is_student = models.BooleanField('student status', default=False)
+    is_teacher = models.BooleanField('teacher status', default=False) """
+
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
 class Room(models.Model):
     roomid = models.CharField("Room ID",max_length=10, blank=False)
