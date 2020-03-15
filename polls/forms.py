@@ -14,7 +14,11 @@ class homeInput(forms.Form):
                                                               'name' : 'newpoll',
                                                               'type' : 'text',
                                                               'required' : 'true',
+<<<<<<< HEAD
                                                               'placeholder' :'Type #RoomID',
+=======
+                                                              'placeholder' :'# Room_ID',
+>>>>>>> 8d74bf2889b2d8c9256fec0e59a5c2fa6f91c221
                                                               'style' : 'height: 40px; max-width: 500px; border-radius: 2rem;'
                                                            }))
     type = forms.ChoiceField(choices=[('mc','Multiple Choice'), ('yn','Yes/No'), ('n','Numbered')], widget=forms.RadioSelect)
