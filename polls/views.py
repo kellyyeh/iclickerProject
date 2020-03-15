@@ -1,7 +1,10 @@
+import csv, io
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from polls.forms import homeInput, Choices, Numbered, MCForm,YesNoForm, NumberedForm, AdminForm
 from django.http import Http404, HttpResponseNotFound, HttpResponse
 from django.forms import formset_factory
+from django.contrib import messages
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from polls.models import Room, Poll, Option, NumberedVote, YesNoVote, MCVote, NumberedOption, Participant
@@ -62,6 +65,31 @@ def admin(request,roomid):
 
 def professor_home(request):
     print("This is the professor's home page")
+    if request.method == "GET":
+        return render(request, "polls/professor_home.html", {})
+    
+    csv_file = request.FILES['file']
+
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request,'NOT CSV FILE')
+    
+    data_set = csv_file.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    
+
+    room = createroom(False, False)
+
+    for column in csv.reader(io_string, delimiter=','):
+        poll = Poll(title = column[0], type = 'mc', active = True, room = room)
+        poll.save()
+        choice_list = []
+        choice_list.append(column[1])
+        choice_list.append(column[2])
+        choice_list.append(column[3])
+        choice_list.append(column[4])
+        for choice in choice_list:
+            o = Option(option=choice, poll=poll)
+            o.save()
     return render(request, 'polls/professor_home.html')
     # print("key = ", request.session.get('key',''))
     # key = request.session.get('key','')
