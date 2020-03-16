@@ -1,0 +1,254 @@
+<html lang="en">
+<title>iclicker</title>
+
+<head>
+    <meta charset="UTF-8">
+
+
+    {% load static %}
+    {% load tags %}
+
+    <script src="{% static 'questions/js/Chart.min.js' %}"></script>
+
+
+
+</head>
+
+<header>
+
+<nav class="navbar navbar-light navbar-expand-md">
+    <a class="navar-brand" href="#">
+        <img src="{% static 'questions/images/iclicker.jpg' %}" id="logo" class="m-3" width="150px">
+    </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-4 mr-auto">
+      <li class="nav-item mx-3">
+        <a class="nav-link ">LIVE question IN PROGRESS...<span class="sr-only">(current)</span></a>
+      </li>
+
+    </ul>
+    <span class="navbar-nav">
+        <a class="nav-link" href="">Student Log Out</a>
+
+    </span>
+  </div>
+</nav>
+
+
+</header>
+
+<body style="text-align: center">
+    <div  id="leftside" class="p-sm-5 mt-3 px-3 pt-5 mx-md-4">
+        <div>
+            {% if name == '' or name == 'admin' %}
+            <div class="p-3" id="auth">
+                <h4 style="text-align: -webkit-center">Enter your name</h4>
+
+                <div class="my-5">
+                    <i class="fas fa-lock" style="font-size: 40px; margin-top: 3px; float: left; color: #eacc26;"></i>
+                    <p class="text-muted" style="margin-left: 70px;"> Anonymity is turned on. Your name will not be visible to others.</p>
+                </div>
+
+                <form>
+                    <input type="text" class="form-control" id="name_field" placeholder="Full Name" style="background-color: var(--mydarkgrey); width: 100%; height: 40px; border-radius: 0.7rem;">
+                    <button type="button" id="name_submit" class="btn primary mt-3" style="border-radius: 1rem; width: 100%">Submit</button>
+                </form>
+
+            </div>
+            {% endif %}
+
+        
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- <div class="col-md-5 col-10 p-sm-5 px-3 pt-5 mx-4" style="background-color: #f5f5f5; height: 80%; overflow: scroll; display: inline-block;"></div> <!-->
+
+<script>
+
+
+    $(document).ready(function(){
+
+       
+        var hasVoted = {{hasVoted|jsn}}
+
+        containerwidth = container.width()
+        sliderwidth = $(sliderbutton).width()
+        center = containerwidth/2 - sliderwidth/2
+
+        $(sliderbutton).draggable(
+        {
+            axis: 'x',
+            containment: '#ynslider',
+            drag: function(event, ui) {
+
+                $(sliderleft).removeClass('container-red')
+                $(sliderright).removeClass('container-teal')
+
+
+                $(sliderleft).width(ui.position.left+sliderwidth/2)
+                $(sliderright).width(containerwidth-(ui.position.left+sliderwidth/2))
+
+                if (ui.position.left > 2 && ui.position.left < center)
+                {
+                    var weight = ui.position.left/center
+                    //slider is on the left
+                    var newcolor = pickHex([31, 200, 164],[255, 199, 142],weight)
+                    $(sliderright).css('background-color', 'rgb('+newcolor[0]+','+newcolor[1]+','+newcolor[2]+')')
+                }
+                else if (ui.position.left > center && (ui.position.left < (containerwidth - sliderwidth -2))) {
+                    var weight = 1-(ui.position.left-containerwidth/2+sliderwidth/2)/(containerwidth/2)
+                    var newcolor = pickHex([255, 199, 142],[31, 200, 164],weight)
+                    $(sliderleft).css('background-color', 'rgb('+newcolor[0]+','+newcolor[1]+','+newcolor[2]+')')
+                }
+
+                else if (ui.position.left <= 2){
+                    $(sliderright).css("background-color","#FFC78E")
+                }
+                else if (ui.position.left >= (containerwidth - sliderwidth -2)){
+                    $(sliderleft).css("background-color","var(--myteal)")
+                }
+            }
+
+
+        })
+
+        if (hasVoted === true){
+            $(sliderbutton).draggable('disable')
+        }
+
+});
+
+
+function opensocket() {
+
+        socket = new WebSocket('ws://' + window.location.host +'/ws/' + lectureid + '/');
+
+        socket.onopen = function() {
+            var message = {
+                'name': name,
+            }
+
+            socket.send(JSON.stringify(message));
+        }
+
+
+
+       socket.onmessage = function(e) {
+
+            var data = JSON.parse(e.data);
+
+            if('vote' in data) {
+
+                var vote = data['vote'];
+                console.log("voted: " + vote)
+            }
+
+            else if('conf' in data) {
+
+                var vote = data['conf']
+
+                if (questiontype === 'mc')
+                {
+                    var chosen = $("[value='"+vote+"']").parent().parent()
+                    chosen.addClass("clicked").attr('disabled','true')
+                    var notchosen = $(".userchoice").not(".clicked").addClass("notclicked").attr('disabled','true')
+                }
+
+            }
+
+            else if ('newquestion' in data) {
+
+                title = data['title']
+                type = data['type']
+                options = data['options']
+
+                $("#no_questions").addClass("hidden")
+                $("#mcdiv,#yesnodiv").empty() //not emptying numbered div because we hide it
+
+                questiontype = type; //update questiontype
+
+                $("#questiontitle").text(title)
+
+                if (type === 'mc'){
+
+
+                   
+
+                    for (i=0; i < options.length; i++){
+                        var newchoice = choicehtml.replace('LETTER', alpha[i]).replace(/\TEXT/g,options[i])
+                        $("#mcdiv").append(newchoice)
+                    }
+
+                }
+
+
+            }
+
+            else if ('close' in data){
+                $("#numbereddiv").addClass("hidden")
+                $("#ynslider").addClass("hidden")
+                $("#no_questions").removeClass("hidden")
+                $("#mcdiv,#yesnodiv").empty()
+                $("#questiontitle").text("No questions yet.")
+
+            }
+        };
+
+        socket.onclose = function(e) {
+            console.error('Socket closed unexpectedly');
+            console.log(e);
+        };
+
+}
+
+
+
+
+
+
+</script>
+
+<script>
+    {% if question.type != None %}
+
+    questiontype = {{questiontype}}
+
+
+
+    {% else %}
+
+    questiontype = null
+
+    {% endif %}
+
+
+    $("#questiondata").on('click', '.userchoice', function(){
+
+        if ($(this).attr("disabled") != "disabled"){
+            
+            if (questiontype === 'mc'){
+                var vote = $(this).find("input").attr('value');
+            }
+
+            socket.send(JSON.stringify({
+                'vote': vote
+            }));
+            }
+    });
+
+
+
+</script>
+
+</body>
+
+
+</html>

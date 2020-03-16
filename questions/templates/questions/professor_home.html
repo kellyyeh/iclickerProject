@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Professor Home</title>
+
+    {% load static %}
+
+</head>
+<body>
+       <form id = "fi" action="" method="POST" enctype="multipart/form-data" return false;>
+           {% csrf_token %}
+           <label for="file1"> Upload a file</label>
+           <input type="file" id="file1" name="file">
+           <small>Only accepts CSV files</small>
+           <button  id ="upload" type="submit">Upload</button>
+       </form>
+       <div style="float:right;">
+            <span class="navbar-nav">
+                <p><a href="{% url 'logout' %}">Professor logout</a></p>
+            </span>
+        </div>
+
+    <div class="d-flex justify-content-center align-items-center flex-wrap" id="top" style="width: 100vw; height: 100vh; flex-direction: column; overflow-y: scroll;">
+        <img class="logo" src="{% static 'questions/images/iclicker.jpg' %}" width="300px">
+        
+    </div>
+<script>
+$(document).ready(function(){
+
+    var csrftoken = Cookies.get('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    $("#upload").click(function(e){
+        e.preventDefault();
+        var url = 'http://127.0.0.1:8000/professor_home';
+        // var form = document.getElementById('fi');
+        var formData = new FormData($('this')[0]);
+
+        $.ajax({
+            url: url,
+            data: formData,
+            type: 'POST',
+            contentType:false,
+            processData: false,
+            success: function(data) {
+                alert(data);
+        }
+        });
+    });
+
+    $("#id_title").keydown(function(event) {
+      if (event.keyCode === 13) {
+        event.preventDefault();
+        $("#gobutton").click();
+      }
+    });
+
+
+    });
+
+</script>
+
+
+</body>
+</html>

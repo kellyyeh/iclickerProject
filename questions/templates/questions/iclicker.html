@@ -1,0 +1,186 @@
+<html lang="en">
+<title>iclicker</title>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    {% load static %}
+    {% load tags %}
+
+</head>
+
+<header>
+
+<nav class="navbar navbar-light navbar-expand-md">
+    <a class="navar-brand" href="#">
+        <img src="{% static 'questions/images/iclicker.jpg' %}" class="m-3" width="150px">
+    </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-4 mr-auto">
+      <li class="nav-item mx-3">
+        <a class="nav-link active" href="#">questions <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item mx-3">
+        <a class="nav-link" href="#">History</a>
+      </li>
+    </ul>
+    <span class="navbar-nav">
+        <a class="nav-link" href="#">Login</a>
+        <span id="lectureid">lecture: #{{lecture.lectureid}}</span>
+    </span>
+  </div>
+</nav>
+
+
+</header>
+
+<body style="text-align: center; margin-left: auto; margin-right: auto;">
+
+    <title>MC icon</title>
+
+    <defs>
+        <symbol id="MC-icon2" viewbox="0 0 26 18">
+            <ellipse id="Oval" cx="1.77226779" cy="2" rx="1.77226779" ry="2"/>
+            <rect id="Rectangle-4" x="6.20293725" y="1" width="19.4949456" height="3"/>
+            <ellipse id="Oval" cx="1.77226779" cy="9" rx="1.77226779" ry="2"/>
+            <rect id="Rectangle-4" x="6.20293725" y="8" width="19.4949456" height="3"/>
+            <ellipse id="Oval" cx="1.77226779" cy="16" rx="1.77226779" ry="2"/>
+            <rect id="Rectangle-4" x="6.20293725" y="15" width="19.4949456" height="3"/>
+        </symbol>
+    </defs>
+</svg>
+
+    
+</svg>
+
+<div class="backdrop p-3" id="left-column" style="width: 13vw; min-width: 150px; height: 77vh; overflow: scroll; text-align: center">
+    <h5 class="mb-3 text-muted">Participants</h5>
+    <div class="participant hidden" id="ID"> NAME </div>
+
+    {% for participant in participants %}
+    {% if participant.present == True %}
+    <div class="participant" id="{{participant.pk}}"> {{participant.name}} </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<div class="center mx-4">
+    <div class="inner" style="{% if question == None %}transform: rotateY(180deg) {% endif %}">
+        <div class="center-front" style="overflow: hidden; ">
+
+               <i class="fas fa-archive chart-icon" style="float: left;"></i>
+                <div style="display: inline-block; width: 60%; text-align: center;">
+                  <i class="fas fa-chart-pie chart-icon {% if question.type == 'n' %} click-disabled {% endif %}" style="text-align: center;"></i>
+                  <i class="far fa-chart-bar chart-icon active" style="float: center;"></i>
+                </div>
+
+               <a class="chart-button" href="#">PNG</a>
+               <a class="chart-button" href="/export/{{lecture.lectureid}}">CSV</a>
+
+                <h5 class="chart-title">{{question.title}}</h5>
+                <div class="p-3" style="width: 90%; height: 80%; text-align: center;">
+                    <canvas id="questionchart"></canvas>
+                </div>
+
+        </div>
+
+        <div class="rotated center-back p-3" style="overflow: scroll;">
+            <h5>Create a New question</h5>
+            <div class="mt-4">
+
+                {{newquestion.title}}
+                <div class="tabs d-flex justify-content-between align-items-center" style="display: inline-flex;">
+                    <div data-name="mc" class="pointer questiontype" style="border-radius: 1rem; height: 60px; width: 33%; margin: 5px;">
+                        <svg class="icon-mc" style="margin-top: 10px;">
+                            <use xlink:href="#MC-icon2"></use>
+                        </svg>
+                        <p class="type-text" style="font-size: 13px;">MULTIPLE CHOICE</p>
+                    </div>
+                    <div data-name="yn" class="pointer questiontype" style="border-radius: 1rem; height: 60px; width: 33%; margin-top: 5px; margin-bottom: 5px;">
+                        <svg class="icon-yn" style="margin-top: 10px">
+                            <use xlink:href="#YN-icon2"></use>
+                        </svg>
+                        <p class="type-text" style="font-size: 13px;">YES/NO</p>
+                    </div>
+                    <div data-name="n" class="pointer questiontype" style="border-radius: 1rem; height: 60px; width: 33%; margin: 5px;">
+                        <p class="icon-n" style="font-size: 19px; margin-top: 7px; margin-bottom: 0px;">7.5/10</p>
+                        <p class="type-text" style="font-size: 13px;">NUMBERED</p>
+                    </div>
+                </div>
+
+                <div id="mcform" class="hidden question-type-form">
+                    <div id="add_form" style="display: inline-block; width: 95%;">
+                        <input id="choice_0" type="text" name="mc_choice" class="form-control option" placeholder="A." autocomplete="off" style="width: 90%; border-radius: 0.7rem; margin-left: 0; background-color: var(--mydarkgrey)";>
+                    </div>
+                    <div id="add_container">
+                        <i id="add_more" class="fas fa-plus-circle"></i>
+                    </div>
+                </div>
+
+
+                <button id="startquestion" type="button" class="btn text-white my-4 hidden" style="background-color: var(--myblue);border-radius: 1rem; width: 300px;">Start question</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+
+<script>
+
+   var lectureid = {{lectureid}}
+
+   series = $(".series.hidden").prop('outerHTML')
+   nseries = $(".nseries.hidden").prop('outerHTML') //series for numbered questions
+   participant = $(".participant.hidden").prop('outerHTML') //placeholder for names
+   participant = participant.replace("hidden", '')
+
+   $(".series.hidden,.nseries.hidden,.participant.hidden").remove() //so we don't mess up our iterations with dummy elements
+
+   var socket = new WebSocket('ws://' + window.location.host +'/ws/' + lectureid + '/');
+   var type;
+
+    socket.onclose = function(e) {
+        console.error('Socket closed unexpectedly');
+    };
+
+</script>
+
+
+<!-- declare javascript vars-->
+<script src="{% static 'questions/js/chartjs-plugin-labels.min.js' %}"></script>
+
+<script src="{% static 'questions/js/live2.js' %}"></script>
+<script>
+    window.odometerOptions = {
+        format: 'd',
+    };
+
+</script>
+
+
+<script>
+
+    if (typeof initial_data != 'undefined'){
+        type = {{question.type | jsn}}
+        drawChart(initial_data)
+    }
+
+    else {
+        drawChart(0)
+    }
+
+
+
+</script>
+
+
+</html>

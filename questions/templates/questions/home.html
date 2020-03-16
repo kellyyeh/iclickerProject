@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div style="text-align:center"><h2>Home</h2></div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Home</title>
+
+    {% load static %}
+
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" href="{% static 'questions/css/iclicker.css' %}">
+
+</head>
+<body>
+      </form></div>
+    <div class="d-flex justify-content-center align-items-center flex-wrap" id="top" style="width: 100vw; height: 100vh; flex-direction: column; overflow-y: scroll;">
+        <img class="logo" src="{% static 'questions/images/iclicker.jpg' %}" width="300px">
+        {% if user.is_authenticated %} 
+        <div style="text-align:center">Hi {{ user.username }}! Welcome!</div>
+        <p><a href="{% url 'logout' %}">logout</a></p>
+      {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url 'login' %}">login</a>
+        {% endif %}
+    </div>
+<script>
+$(document).ready(function(){
+
+  $("#goprofessor").click(function(){
+      window.location = "/"+professor_home //redirect to lecture
+ 
+  });
+
+
+    $("#id_title").keydown(function(event) {
+      if (event.keyCode === 13) {
+        event.preventDefault();
+        $("#gobutton").click();
+      }
+    });
+
+
+    $("#gobutton").click(function(){
+        if ($("#id_title").val()[0] === "#") {
+            var id = $("#id_title").val().split("#")[1]
+            window.location = "/"+id //redirect to lecture
+        }
+        else {
+            $("#step1").removeClass("hidden").hide().fadeIn(300);
+            $(this).addClass("hidden")
+            $(this).attr("disabled", "disabled")
+        }
+    });
+
+    $(".choice-label").click(function(){
+
+        var type = $(this).find("input").attr('value')
+
+        if (type === 'mc'){         //hide unrelated forms
+            $("#numbered_form").hide()
+            $('#mc_form').show()
+        }
+    
+
+        $("#step1").animate({
+            left: '100%'},
+            300, function(){
+                $("#step1").addClass("hidden")
+                $("#step2").removeClass("hidden")
+                $("#step2").animate({
+                    left: '0'}, 300);
+                });
+        });
+
+
+    });
+
+    $("#back").click(function(){
+        $("#step2").animate({
+            left: '-100%'},300,function(){
+                $("#step2").addClass("hidden")
+                $("#step1").removeClass("hidden")
+                $("#step1").animate({
+                    left: '0'}, 300);
+            });
+
+
+
+    });
+</script>
+
+<script>
+var field;
+    $(document).ready(function() {
+        field = $('#empty_form').html()
+
+        var alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'] // 10 choices max
+
+        $('#add_more').click(function() {
+            var form_idx = $('#id_form-TOTAL_FORMS').val();
+            $('#add_form').append(field.replace(/__prefix__/g, form_idx));
+            $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+            $("#id_form-"+String(form_idx)+"-choice").attr('placeholder', alpha[parseInt(form_idx)]+'.')
+
+        });
+
+        $("#id_form-0-choice").attr('placeholder','A.');
+
+        $(".switch").click(function() {
+            var e = $(this).children("input")
+            e.prop("checked", !e.prop("checked"));
+            console.log("triggered");
+        });
+
+
+    });
+
+</script>
+
+
+
+</body>
+</html>
