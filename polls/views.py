@@ -134,14 +134,29 @@ def professor_home(request):
     # What is this json?!: {"title": "q3", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
     # What is this json?!: {"title": "q4", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
 
-    request.session['key'] = room.key
-    request.session['room'] = room.roomid
-    request.session['name'] = 'admin'
-    request.session['list_of_jsons'] = json_list
+    if request.user.is_authenticated:
+        pass # save to db
+    else:
+        request.session['key'] = room.key
+        request.session['room'] = room.roomid
+        request.session['name'] = 'admin'
+        request.session['list_of_jsons'] = json_list
 
-    if json_list:
-        #return redirect('professor/'+room.roomid)
-        return redirect(room.roomid+'/admin')
+    return redirect(room.roomid+'/admin')
+
+    context = {'newpoll': newpoll,
+               'choiceset': choices,
+               'numbered': numbered,
+               }
+
+    # request.session['key'] = room.key
+    # request.session['room'] = room.roomid
+    # request.session['name'] = 'admin'
+    # request.session['list_of_jsons'] = json_list
+    #
+    # if json_list:
+    #     #return redirect('professor/'+room.roomid)
+    #     return redirect(room.roomid+'/admin')
 
     return render(request, 'polls/professor_home.html')
 
