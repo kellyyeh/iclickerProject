@@ -9,7 +9,6 @@ from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from polls.models import Room, Poll, Option, NumberedVote, YesNoVote, MCVote, NumberedOption, Participant
 from django.utils.safestring import mark_safe
-import csvmapper
 
 import random, logging, string, channels, json, pdb, datetime, csv
 
