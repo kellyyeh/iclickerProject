@@ -9,7 +9,7 @@ from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from polls.models import Room, Poll, Option, NumberedVote, YesNoVote, MCVote, NumberedOption, Participant
 from django.utils.safestring import mark_safe
-from django.contrib.auth import authenticate, login
+import csvmapper
 
 import random, logging, string, channels, json, pdb, datetime, csv
 
@@ -34,9 +34,9 @@ def admin(request,roomid):
 
     try:
         print("Inside views.py / admin: try to filter for poll")
-        poll = Poll.objects.filter(room__roomid=roomid, active=True).order_by('pub_date')[poll_num] #get latest active poll
-        if poll_num < room.total_polls:
-            room.poll_num = room.poll_num + 1
+        poll = Poll.objects.filter(room__roomid=roomid, active=True).order_by('pub_date')[0] #get latest active poll
+        # if poll_num < room.total_polls:
+        #     room.poll_num = room.poll_num + 1
 
 
         if poll.type == 'mc':
@@ -86,9 +86,6 @@ def professor_home(request):
     if not csv_file.name.endswith('.csv'):
         messages.error(request,'NOT CSV FILE')
 
-    data_set = csv_file.read().decode('UTF-8')
-    io_string = io.StringIO(data_set)
-
 
     room = createroom(False, False)
     roomid = room.roomid
@@ -97,33 +94,72 @@ def professor_home(request):
     print("room id:",roomid)
 
 
-    for column in csv.reader(io_string, delimiter=','):
-        poll = Poll(title = column[0], type = 'mc', active = True, room = room)
-        poll.save()
+    fieldnames = ("title","option1","option2","option3","option4")
+    fi_obj = csv_file.open()
+    json_list = []
+    with io.TextIOWrapper(fi_obj, encoding='utf-8') as text_file:
+        reader = csv.DictReader(text_file, fieldnames,  delimiter=',')
+        for row in reader:
+            print(row)
+            title = row["title"]
+            print("row title:", title)
+            option1 = row["option1"]
+            print(option1)
+            option2 = row["option2"]
+            print(option2)
+            option3 = row["option3"]
+            print(option3)
+            option4 = row["option4"]
+            print(option4)
 
-        # obj = Room.objects.create(val=1)
-        # Room.objects.filter(roomid=roomid).update(poll_num=F('poll_num') + 1)
-        # obj.refresh_from_db()
-        room.total_polls = room.total_polls+ 1
-        room.save()
+            json_row = json.dumps(row)
+            print("What is this json?!:", json_row)
+            json_list.append(json_row)
 
-        choice_list = []
-        choice_list.append(column[1])
-        choice_list.append(column[2])
-        choice_list.append(column[3])
-        choice_list.append(column[4])
-        for choice in choice_list:
-            o = Option(option=choice, poll=poll)
-            o.save()
-    request.session['key'] = room.key
-    request.session['room'] = room.roomid
-    request.session['name'] = 'admin'
+            poll = Poll(title = title, type = 'mc', active = True, room = room)
+            poll.save()
 
-    if io_string:
-        #return redirect('professor/'+room.roomid)
-        return redirect(room.roomid+'/admin')
+            choice_list = []
+            choice_list.append(option1)
+            choice_list.append(option2)
+            choice_list.append(option3)
+            choice_list.append(option4)
+            for choice in choice_list:
+                o = Option(option=choice, poll=poll)
+                o.save()
+
+    # Returned back:
+    # What is this json?!: {"title": "q1", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
+    # What is this json?!: {"title": "q2", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
+    # What is this json?!: {"title": "q3", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
+    # What is this json?!: {"title": "q4", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
+
+    if request.user.is_authenticated:
+        pass # save to db
+    else:
+        request.session['key'] = room.key
+        request.session['room'] = room.roomid
+        request.session['name'] = 'admin'
+        request.session['list_of_jsons'] = json_list
+
+    return redirect(room.roomid+'/admin')
+
+    context = {'newpoll': newpoll,
+               'choiceset': choices,
+               'numbered': numbered,
+               }
+
+    # request.session['key'] = room.key
+    # request.session['room'] = room.roomid
+    # request.session['name'] = 'admin'
+    # request.session['list_of_jsons'] = json_list
+    #
+    # if json_list:
+    #     #return redirect('professor/'+room.roomid)
+    #     return redirect(room.roomid+'/admin')
 
     return render(request, 'polls/professor_home.html')
+
 
 def student_home(request):
     print("This is the STUDENT HOME/login page")
