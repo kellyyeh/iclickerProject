@@ -280,8 +280,8 @@ def exportcsv(request,roomid):
 
         writer.writerow(['Name', 'Vote'])
 
-        for vote in poll.mcvote_set.all():                              # ['Mishari', 'Yes'
-            s = SessionStore(session_key=vote.session.session_key)     #   'Munija', 'No'..]
+        for vote in poll.mcvote_set.all():                
+            s = SessionStore(session_key=vote.session.session_key)  
             writer.writerow([s['name'], vote.vote.option])
 
     elif poll.type == 'n':

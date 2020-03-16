@@ -14,7 +14,6 @@ import random, logging, string, channels, json, pdb, datetime, csv
 
 logger = logging.getLogger(__name__)
 
-# This is the page where admin has created a poll already
 def admin(request,roomid):
 
     room = Room.objects.get(roomid=roomid)
@@ -34,8 +33,6 @@ def admin(request,roomid):
     try:
         print("Inside views.py / admin: try to filter for poll")
         poll = Poll.objects.filter(room__roomid=roomid, active=True).order_by('pub_date')[0] #get latest active poll
-        # if poll_num < room.total_polls:
-        #     room.poll_num = room.poll_num + 1
 
 
         if poll.type == 'mc':
@@ -47,7 +44,7 @@ def admin(request,roomid):
 
         count = getvotecount(poll)
 
-    except IndexError: # no active polls
+    except IndexError:
 
         poll = None
         count = None
@@ -127,12 +124,6 @@ def professor_home(request):
                 o = Option(option=choice, poll=poll)
                 o.save()
 
-    # Returned back:
-    # What is this json?!: {"title": "q1", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
-    # What is this json?!: {"title": "q2", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
-    # What is this json?!: {"title": "q3", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
-    # What is this json?!: {"title": "q4", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
-
     if request.user.is_authenticated:
         pass # save to db
     else:
@@ -148,14 +139,6 @@ def professor_home(request):
                'numbered': numbered,
                }
 
-    # request.session['key'] = room.key
-    # request.session['room'] = room.roomid
-    # request.session['name'] = 'admin'
-    # request.session['list_of_jsons'] = json_list
-    #
-    # if json_list:
-    #     #return redirect('professor/'+room.roomid)
-    #     return redirect(room.roomid+'/admin')
 
     return render(request, 'polls/professor_home.html')
 
@@ -234,8 +217,8 @@ def exportcsv(request,roomid):
 
         writer.writerow(['Name', 'Vote'])
 
-        for vote in poll.mcvote_set.all():                              # ['Mishari', 'Yes'
-            s = SessionStore(session_key=vote.session.session_key)     #   'Munija', 'No'..]
+        for vote in poll.mcvote_set.all():                        
+            s = SessionStore(session_key=vote.session.session_key)    
             writer.writerow([s['name'], vote.vote.option])
 
     elif poll.type == 'n':
