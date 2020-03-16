@@ -3,7 +3,7 @@ from django import forms
 class UploadFileForm(forms.Form):
     title = forms.CharField(max_length=50)
     file = forms.FileField()
-
+    
 class homeInput(forms.Form):
     title = forms.CharField(label='', max_length=200,
                               widget=forms.TextInput(attrs={'class' : 'form-control newpoll',

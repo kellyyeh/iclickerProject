@@ -1,9 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.conf import settings
 from django.contrib.sessions.models import Session
+from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 class Room(models.Model):
     roomid = models.CharField("Room ID",max_length=10, blank=False)
+    poll_num = models.IntegerField(default=0)
+    total_polls = models.IntegerField(default=0)
     anonymous = models.BooleanField("anonymous")
     private = models.BooleanField("private")
     key = models.CharField(max_length=16)

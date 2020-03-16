@@ -1,0 +1,10 @@
+# title = row["title"]
+            # print("row title:", title)
+            # option1 = row["option1"]
+            # print(option1)
+            # option2 = row["option2"]
+            # print(option2)
+            # option3 = row["option3"]
+            # print(option3)
+            # option4 = row["option4"]
+            # print(option4)

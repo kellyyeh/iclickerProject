@@ -2,7 +2,7 @@ import csv, io
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from polls.forms import homeInput, Choices, Numbered, MCForm,YesNoForm, NumberedForm, AdminForm
-from django.http import Http404, HttpResponseNotFound, HttpResponse
+from django.http import Http404, HttpResponseNotFound, HttpResponse, HttpResponseRedirect
 from django.forms import formset_factory
 from django.contrib import messages
 from django.contrib.sessions.models import Session
@@ -18,6 +18,10 @@ logger = logging.getLogger(__name__)
 def admin(request,roomid):
 
     room = Room.objects.get(roomid=roomid)
+    total_polls = room.total_polls
+    print("total polls:", total_polls)
+    poll_num = room.poll_num
+    print("poll num:", poll_num)
 
     if request.user.is_authenticated:
         pass
@@ -29,7 +33,10 @@ def admin(request,roomid):
 
     try:
         print("Inside views.py / admin: try to filter for poll")
-        poll = Poll.objects.filter(room__roomid=roomid, active=True).order_by('-pub_date')[0] #get latest active poll
+        poll = Poll.objects.filter(room__roomid=roomid, active=True).order_by('pub_date')[0] #get latest active poll
+        # if poll_num < room.total_polls:
+        #     room.poll_num = room.poll_num + 1
+
 
         if poll.type == 'mc':
             options = Option.objects.filter(poll_id=poll.id)
@@ -52,6 +59,8 @@ def admin(request,roomid):
 
     context = {'poll': poll,
                'room': room,
+               'total_polls': total_polls,
+               'poll_num': poll_num,
                'options': options,
                'newpoll': newpoll,
                'roomid': mark_safe(json.dumps(room.roomid)),
@@ -66,7 +75,7 @@ def admin(request,roomid):
 def professor_home(request):
     print("key = ", request.session.get('key',''))
     key = request.session.get('key','')
-    
+
     print("This is the professor's home page")
     if request.method == "GET":
         return render(request, "polls/professor_home.html", {})
@@ -76,111 +85,80 @@ def professor_home(request):
     if not csv_file.name.endswith('.csv'):
         messages.error(request,'NOT CSV FILE')
 
-    data_set = csv_file.read().decode('UTF-8')
-    io_string = io.StringIO(data_set)
-
 
     room = createroom(False, False)
+    roomid = room.roomid
 
-    for column in csv.reader(io_string, delimiter=','):
-        poll = Poll(title = column[0], type = 'mc', active = True, room = room)
-        poll.save()
-        choice_list = []
-        choice_list.append(column[1])
-        choice_list.append(column[2])
-        choice_list.append(column[3])
-        choice_list.append(column[4])
-        for choice in choice_list:
-            o = Option(option=choice, poll=poll)
-            o.save()
-    return render(request, 'polls/professor_home.html')
-    # print("key = ", request.session.get('key',''))
-    # key = request.session.get('key','')
+
+    print("room id:",roomid)
+
+
+    fieldnames = ("title","option1","option2","option3","option4")
+    fi_obj = csv_file.open()
+    json_list = []
+    with io.TextIOWrapper(fi_obj, encoding='utf-8') as text_file:
+        reader = csv.DictReader(text_file, fieldnames,  delimiter=',')
+        for row in reader:
+            print(row)
+            title = row["title"]
+            print("row title:", title)
+            option1 = row["option1"]
+            print(option1)
+            option2 = row["option2"]
+            print(option2)
+            option3 = row["option3"]
+            print(option3)
+            option4 = row["option4"]
+            print(option4)
+
+            json_row = json.dumps(row)
+            print("What is this json?!:", json_row)
+            json_list.append(json_row)
+
+            poll = Poll(title = title, type = 'mc', active = True, room = room)
+            poll.save()
+
+            choice_list = []
+            choice_list.append(option1)
+            choice_list.append(option2)
+            choice_list.append(option3)
+            choice_list.append(option4)
+            for choice in choice_list:
+                o = Option(option=choice, poll=poll)
+                o.save()
+
+    # Returned back:
+    # What is this json?!: {"title": "q1", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
+    # What is this json?!: {"title": "q2", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
+    # What is this json?!: {"title": "q3", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
+    # What is this json?!: {"title": "q4", "option1": "a", "option2": "b", "option3": "c", "option4": "d"}
+
+    if request.user.is_authenticated:
+        pass # save to db
+    else:
+        request.session['key'] = room.key
+        request.session['room'] = room.roomid
+        request.session['name'] = 'admin'
+        request.session['list_of_jsons'] = json_list
+
+    return redirect(room.roomid+'/admin')
+
+    context = {'newpoll': newpoll,
+               'choiceset': choices,
+               'numbered': numbered,
+               }
+
+    # request.session['key'] = room.key
+    # request.session['room'] = room.roomid
+    # request.session['name'] = 'admin'
+    # request.session['list_of_jsons'] = json_list
     #
-    # ChoiceSet = formset_factory(Choices, extra=1)
-    #
-    # newpoll = homeInput(request.POST or None)
-    # choices = ChoiceSet(request.POST or None)
-    # numbered = Numbered(request.POST or None)
-    #
-    # if newpoll.is_valid():
-    #
-    #     title = newpoll.cleaned_data['title'].capitalize()
-    #     type = newpoll.cleaned_data['type']
-    #     anon = newpoll.cleaned_data['anonymous']
-    #     private = newpoll.cleaned_data['private']
-    #
-    #
-    #     if type == 'mc' and choices.is_valid():
-    #
-    #         choice_list = []
-    #
-    #         for choice in choices:
-    #             choice_list.append(choice.cleaned_data.get('choice'))
-    #
-    #         choice_list = list(filter(None,choice_list)) #remove empty strings, does not remove strings with spaces
-    #                                                             # set() removes duplicates
-    #
-    #         if choice_list:
-    #             room = createroom(anon, private)
-    #
-    #             poll = Poll(title=title, type=type, active=True, room=room)
-    #             poll.save()
-    #
-    #             for choice in choice_list:
-    #                 o = Option(option=choice, poll=poll)
-    #                 o.save()
-    #         else:
-    #             logger.error('No choices were entered for this poll')
-    #             return redirect('')
-    #
-    #     elif type == 'n' and numbered.is_valid():
-    #
-    #         start = numbered.cleaned_data['start']
-    #         end = numbered.cleaned_data['end']
-    #
-    #         try:
-    #             float(start)
-    #             float(end)
-    #
-    #         except ValueError:
-    #
-    #             logger.error('Start/End field is not a number')
-    #             return redirect('')
-    #
-    #         if start and end:
-    #             room = createroom(anon, private)
-    #             poll = Poll(title=title, type=type, active=True, room=room)
-    #             poll.save()
-    #
-    #             options = NumberedOption(poll=poll, start=start, end=end)
-    #             options.save()
-    #
-    #         else:
-    #             return redirect('')
-    #
-    #     elif type == 'yn':
-    #         room = createroom(anon, private)
-    #         poll = Poll(title=title, type=type, active=True, room=room)
-    #         poll.save()
-    #
-    #     else:
-    #         logger.error('invalid poll type')
-    #         return redirect('')
-    #
-    #     if request.user.is_authenticated:
-    #         pass # save to db
-    #     else:
-    #         request.session['key'] = room.key
-    #         request.session['room'] = room.roomid
-    #         request.session['name'] = 'admin'
-    #
+    # if json_list:
+    #     #return redirect('professor/'+room.roomid)
     #     return redirect(room.roomid+'/admin')
-    #
-    # context = {'newpoll': newpoll,
-    #            'choiceset': choices,
-    #            'numbered': numbered,
-    #            }
+
+    return render(request, 'polls/professor_home.html')
+
 
 def student_home(request):
     print("This is the STUDENT HOME/login page")
@@ -207,6 +185,7 @@ def home(request):
     key = request.session.get('key','')
 
     # Student or professor login..
+    
     ChoiceSet = formset_factory(Choices, extra=1)
 
     newpoll = homeInput(None)
@@ -403,8 +382,7 @@ def createroom(anon, private):
         roomid = ''.join(random.choice(string.ascii_lowercase + string.digits) for i in range(6))  # regenerate roomid
 
     key = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(16))
-
-    room = Room(roomid=roomid, key=key, anonymous=anon, private=private)
+    room = Room(roomid=roomid, poll_num=0, total_polls=0, key=key, anonymous=anon, private=private)
     room.save()
 
     return room
