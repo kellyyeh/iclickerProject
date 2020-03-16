@@ -1,4 +1,4 @@
-#!/Users/Mishari/apollo/stop/bin/python
+#!/Users/Mishari/iclicker/stop/bin/python
 
 import sys
 import getopt

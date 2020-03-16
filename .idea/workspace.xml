@@ -12,7 +12,7 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apollo/settings.py">
+        <entry file="file://$PROJECT_DIR$/iclicker/settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1345">
               <caret line="124" column="0" lean-forward="true" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
@@ -22,7 +22,7 @@
         </entry>
       </file>
       <file leaf-file-name="local.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apollo/local.py">
+        <entry file="file://$PROJECT_DIR$/iclicker/local.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="97">
               <caret line="112" column="17" lean-forward="true" selection-start-line="112" selection-start-column="17" selection-end-line="112" selection-end-column="17" />
@@ -67,8 +67,8 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="apollo.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/polls/templates/polls/apollo.html">
+      <file leaf-file-name="iclicker.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/polls/templates/polls/iclicker.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="947">
               <caret line="121" column="0" lean-forward="false" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
@@ -117,8 +117,8 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="apollo.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/polls/static/polls/css/apollo.css">
+      <file leaf-file-name="iclicker.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/polls/static/polls/css/iclicker.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="8205">
               <caret line="547" column="0" lean-forward="false" selection-start-line="547" selection-start-column="0" selection-end-line="547" selection-end-column="0" />
@@ -163,7 +163,7 @@
       <find>allowed</find>
       <find>logo</find>
       <find>h4</find>
-      <find>apollo.css</find>
+      <find>iclicker.css</find>
       <find>sli</find>
       <find>mx-4</find>
       <find>meta</find>
@@ -184,9 +184,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/apollo/urls.py" />
+        <option value="$PROJECT_DIR$/iclicker/urls.py" />
         <option value="$PROJECT_DIR$/polls/routing.py" />
-        <option value="$PROJECT_DIR$/apollo/routing.py" />
+        <option value="$PROJECT_DIR$/iclicker/routing.py" />
         <option value="$PROJECT_DIR$/polls/templatetags/__init__.py" />
         <option value="$PROJECT_DIR$/polls/templates/polls/home.html" />
         <option value="$PROJECT_DIR$/polls/static/polls/js/chartjs-plugin-labels.min.js" />
@@ -195,19 +195,19 @@
         <option value="$PROJECT_DIR$/polls/templatetags/tags.py" />
         <option value="$PROJECT_DIR$/polls/models.py" />
         <option value="$PROJECT_DIR$/polls/static/polls/js/velocity.min.js" />
-        <option value="$USER_HOME$/apollo-env/lib/python3.7/site-packages/channels_redis/core.py" />
+        <option value="$USER_HOME$/iclicker-env/lib/python3.7/site-packages/channels_redis/core.py" />
         <option value="$PROJECT_DIR$/polls/static/polls/js/live2.js" />
-        <option value="$PROJECT_DIR$/apollo/asgi.py" />
+        <option value="$PROJECT_DIR$/iclicker/asgi.py" />
         <option value="$PROJECT_DIR$/polls/urls.py" />
         <option value="$PROJECT_DIR$/polls/templates/polls/invalid_room.html" />
         <option value="$PROJECT_DIR$/polls/templates/polls/404.html" />
         <option value="$PROJECT_DIR$/polls/static/polls/js/jquery.ui.touch-punch.min.js" />
         <option value="$PROJECT_DIR$/polls/templates/404.html" />
-        <option value="$PROJECT_DIR$/polls/templates/polls/apollo.html" />
+        <option value="$PROJECT_DIR$/polls/templates/polls/iclicker.html" />
         <option value="$PROJECT_DIR$/polls/templates/polls/user.html" />
-        <option value="$PROJECT_DIR$/polls/static/polls/css/apollo.css" />
-        <option value="$PROJECT_DIR$/apollo/settings.py" />
-        <option value="$PROJECT_DIR$/apollo/local.py" />
+        <option value="$PROJECT_DIR$/polls/static/polls/css/iclicker.css" />
+        <option value="$PROJECT_DIR$/iclicker/settings.py" />
+        <option value="$PROJECT_DIR$/iclicker/local.py" />
         <option value="$PROJECT_DIR$/polls/consumers.py" />
         <option value="$PROJECT_DIR$/polls/views.py" />
       </list>
@@ -238,57 +238,57 @@
         <subPane>
           <expand>
             <path>
-              <item name="apollo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="apollo" type="462c0819:PsiDirectoryNode" />
+              <item name="iclicker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iclicker" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="apollo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="apollo" type="462c0819:PsiDirectoryNode" />
-              <item name="apollo" type="462c0819:PsiDirectoryNode" />
+              <item name="iclicker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iclicker" type="462c0819:PsiDirectoryNode" />
+              <item name="iclicker" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="apollo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="apollo" type="462c0819:PsiDirectoryNode" />
+              <item name="iclicker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iclicker" type="462c0819:PsiDirectoryNode" />
               <item name="polls" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="apollo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="apollo" type="462c0819:PsiDirectoryNode" />
-              <item name="polls" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="apollo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="apollo" type="462c0819:PsiDirectoryNode" />
+              <item name="iclicker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iclicker" type="462c0819:PsiDirectoryNode" />
               <item name="polls" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="iclicker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iclicker" type="462c0819:PsiDirectoryNode" />
+              <item name="polls" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
               <item name="polls" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="apollo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="apollo" type="462c0819:PsiDirectoryNode" />
+              <item name="iclicker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iclicker" type="462c0819:PsiDirectoryNode" />
               <item name="polls" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
               <item name="polls" type="462c0819:PsiDirectoryNode" />
               <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="apollo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="apollo" type="462c0819:PsiDirectoryNode" />
+              <item name="iclicker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iclicker" type="462c0819:PsiDirectoryNode" />
               <item name="polls" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
               <item name="polls" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="apollo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="apollo" type="462c0819:PsiDirectoryNode" />
+              <item name="iclicker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iclicker" type="462c0819:PsiDirectoryNode" />
               <item name="polls" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="apollo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="apollo" type="462c0819:PsiDirectoryNode" />
+              <item name="iclicker" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iclicker" type="462c0819:PsiDirectoryNode" />
               <item name="polls" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="polls" type="462c0819:PsiDirectoryNode" />
@@ -310,7 +310,7 @@
       <recent name="$PROJECT_DIR$/polls/templates" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/apollo" />
+      <recent name="$PROJECT_DIR$/iclicker" />
       <recent name="$PROJECT_DIR$/polls/templates/polls" />
       <recent name="$PROJECT_DIR$/polls/static/polls/js" />
     </key>
@@ -407,7 +407,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/polls/templates/polls/apollo.html">
+    <entry file="file://$PROJECT_DIR$/polls/templates/polls/iclicker.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1095">
           <caret line="121" column="0" lean-forward="true" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
@@ -459,7 +459,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/polls/static/polls/css/apollo.css">
+    <entry file="file://$PROJECT_DIR$/polls/static/polls/css/iclicker.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8205">
           <caret line="547" column="0" lean-forward="true" selection-start-line="547" selection-start-column="0" selection-end-line="547" selection-end-column="0" />
@@ -467,7 +467,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apollo/settings.py">
+    <entry file="file://$PROJECT_DIR$/iclicker/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1875">
           <caret line="125" column="0" lean-forward="true" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
@@ -475,7 +475,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apollo/routing.py">
+    <entry file="file://$PROJECT_DIR$/iclicker/routing.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
@@ -503,7 +503,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/polls/templates/polls/apollo.html">
+    <entry file="file://$PROJECT_DIR$/polls/templates/polls/iclicker.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="840">
           <caret line="56" column="9" lean-forward="true" selection-start-line="56" selection-start-column="9" selection-end-line="56" selection-end-column="9" />
@@ -539,7 +539,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/polls/static/polls/css/apollo.css">
+    <entry file="file://$PROJECT_DIR$/polls/static/polls/css/iclicker.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="30" />
@@ -593,7 +593,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apollo/urls.py">
+    <entry file="file://$PROJECT_DIR$/iclicker/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="16" column="37" lean-forward="false" selection-start-line="16" selection-start-column="37" selection-end-line="16" selection-end-column="37" />
@@ -650,7 +650,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/apollo-env/lib/python3.7/site-packages/channels_redis/core.py">
+    <entry file="file://$USER_HOME$/iclicker-env/lib/python3.7/site-packages/channels_redis/core.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="341">
           <caret line="810" column="45" lean-forward="true" selection-start-line="810" selection-start-column="45" selection-end-line="810" selection-end-column="45" />
@@ -678,7 +678,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apollo/wsgi.py">
+    <entry file="file://$PROJECT_DIR$/iclicker/wsgi.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
@@ -692,14 +692,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apollo/routing.py">
+    <entry file="file://$PROJECT_DIR$/iclicker/routing.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="12" column="2" lean-forward="false" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apollo/asgi.py">
+    <entry file="file://$PROJECT_DIR$/iclicker/asgi.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="35" lean-forward="false" selection-start-line="13" selection-start-column="35" selection-end-line="13" selection-end-column="35" />
@@ -758,7 +758,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/polls/static/polls/css/apollo.css">
+    <entry file="file://$PROJECT_DIR$/polls/static/polls/css/iclicker.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8205">
           <caret line="547" column="0" lean-forward="false" selection-start-line="547" selection-start-column="0" selection-end-line="547" selection-end-column="0" />
@@ -766,7 +766,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apollo/settings.py">
+    <entry file="file://$PROJECT_DIR$/iclicker/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1345">
           <caret line="124" column="0" lean-forward="true" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
@@ -774,7 +774,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apollo/local.py">
+    <entry file="file://$PROJECT_DIR$/iclicker/local.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="97">
           <caret line="112" column="17" lean-forward="true" selection-start-line="112" selection-start-column="17" selection-end-line="112" selection-end-column="17" />
@@ -792,7 +792,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/polls/templates/polls/apollo.html">
+    <entry file="file://$PROJECT_DIR$/polls/templates/polls/iclicker.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="947">
           <caret line="121" column="0" lean-forward="false" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />

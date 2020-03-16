@@ -46,7 +46,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV='/Users/CarolynHanson/Desktop/apollo-master 2/newenv'
+VIRTUAL_ENV='/Users/CarolynHanson/Desktop/iclicker-master 2/newenv'
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

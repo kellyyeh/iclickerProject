@@ -69,7 +69,7 @@ def admin(request,roomid):
                 }
     print("Inside views.py / admin: context contains:",context)
 
-    return render(request, 'polls/apollo.html', context)
+    return render(request, 'polls/iclicker.html', context)
 
 
 def professor_home(request):
